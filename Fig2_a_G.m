@@ -20,8 +20,8 @@ Deaths_used_data = Deaths(1:1:260);
 % opts.StartPoint = [0.0461713906311539 0.0971317812358475 0.823457828327293];
 % % Fit model to data.
 % [fitresult, gof] = fit( xData, yData, ft, opts );
-Curvefit_cases = createFit11(ind_used_data, Cases_used_data);
-Curvefit_Deaths = createFit11(ind_used_data, Deaths_used_data);
+Curvefit_cases = createFit(ind_used_data, Cases_used_data);
+Curvefit_Deaths = createFit(ind_used_data, Deaths_used_data);
 
 t = (1:1:700);
 x = Curvefit_cases(t);
