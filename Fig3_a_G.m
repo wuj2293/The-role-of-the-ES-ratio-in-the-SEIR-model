@@ -1,6 +1,6 @@
 close all
 clear all
-%%%%% Figure3 %%%%%
+
 %% Load Data
 load('Guinea_originaldata.mat')
 load('Guinea_week.mat')
