@@ -1,6 +1,5 @@
-close all
 clear all
-%%%%% Figure3 %%%%%
+
 %% Load Data
 load('SierraLeone_originaldata.mat')
 load('SierraLeone_week.mat')
@@ -51,11 +50,13 @@ E0 = E(1);
 I0 = I(1);
 R0 = 0;
 
-Nt = linspace(20074,200074,200); % 1만부터 20만까지
-St = linspace(20000,200000,200);
+% St = [20000 30000 40000 50000 60000 70000 80000];
+% St = [40000 50000 60000 70000 80000 90000 100000 110000 120000];
+St = 2e4:1e4:20e4;
+% St = linspace(20000,200000,200);
 
-for i=1:length(Nt);
-    N=Nt(i);
+for i=1:length(St);
+    N=St(i)+74;
     S0 = N-(E0+I0+R0);
     S = S0 - cumtrapz(t,phi);
     sigind=E./S;
@@ -63,11 +64,15 @@ for i=1:length(Nt);
 end
 
 %% Plot
-figure(2)
-hold on
-plot(St,test,'LineWidth',2)
-plot(St,185*ones(length(St),1),'LineWidth',2)
-hold off
+close all
+figure(1)
 
-title('Sierra Leone')
-ylim([184 206])
+hold on
+plot(St,test,'k.', 'MarkerSize',20)
+yline(189,'-','Rt = 1', 'LineWidth',2);
+xlabel('S(0)')
+ylabel('Days from May 27, 2014')
+title({'The extreme point($\frac{d}{dt}$(E/S)=0) in SierraLeone', '(Incubation period = 1/11.4)'}, 'Interpreter', 'latex');
+ylim([185 210])
+% ylim([186 194])
+hold off

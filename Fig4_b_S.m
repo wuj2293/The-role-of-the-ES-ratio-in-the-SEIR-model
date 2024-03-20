@@ -1,6 +1,5 @@
-close all
 clear all
-%%%%% Figure3 %%%%%
+
 %% Load Data
 load('SierraLeone_originaldata.mat')
 load('SierraLeone_week.mat')
@@ -51,20 +50,41 @@ E0 = E(1);
 I0 = I(1);
 R0 = 0;
 
-Nt = linspace(20074,70074,6); %인구 범위
-St = linspace(20000,70000,6);
+Nt = [20074 40074 60074 80074]; % linspace(20024,70024,6); %인구 범위
+St = [20000 40000 60000 80000]; % linspace(20000,70000,6);
 
 for i=1:length(Nt);
     N=Nt(i);
     S0 = N-(E0+I0+R0);
     S = S0 - cumtrapz(t,phi);
-    hold on
-    sigind=E./S;
-     % E/S Graph
-    plot(t,sigind,'linewidth',2)
-    xlabel('days')
-    ylabel('ratio')
-    title('Ratio of E to S')
-    hold off
+    sigind(i,:) = E./S;
 end
+
+%%
+close all
+figure(1)
+
+hold on
+S2m = plot(t,sigind(1,:),'k-','linewidth',2);
+S4m = plot(t,sigind(2,:),'k--','linewidth',2);
+S6m = plot(t,sigind(3,:),'k:','linewidth',2);
+S8m = plot(t,sigind(4,:),'k-.','linewidth',2);
+
+plot(find(sigind(1,:) == max(sigind(1,:))), max(sigind(1,:)), 'k*','linewidth',2);
+text(find(sigind(1,:) == max(sigind(1,:))), max(sigind(1,:))+0.002, ...
+    ['(' num2str(find(sigind(1,:) == max(sigind(1,:)))) ' , ' num2str(max(sigind(1,:))) ')'])
+plot(find(sigind(2,:) == max(sigind(2,:))), max(sigind(2,:)), 'k*','linewidth',2);
+text(find(sigind(2,:) == max(sigind(2,:))), max(sigind(2,:))+0.002, ...
+    ['(' num2str(find(sigind(2,:) == max(sigind(2,:)))) ' , ' num2str(max(sigind(2,:))) ')'])
+plot(find(sigind(3,:) == max(sigind(3,:))), max(sigind(3,:)), 'k*','linewidth',2);
+text(find(sigind(3,:) == max(sigind(3,:))), max(sigind(3,:))+0.002, ...
+    ['(' num2str(find(sigind(3,:) == max(sigind(3,:)))) ' , ' num2str(max(sigind(3,:))) ')'])
+plot(find(sigind(4,:) == max(sigind(4,:))), max(sigind(4,:)), 'k*','linewidth',2);
+text(find(sigind(4,:) == max(sigind(4,:))), max(sigind(4,:))+0.002, ...
+    ['(' num2str(find(sigind(4,:) == max(sigind(4,:)))) ' , ' num2str(max(sigind(4,:))) ')'])
+
+legend([S2m S4m S6m S8m],{'S(0)=20000','S(0)=40000', 'S(0)=60000', 'S(0)=80000'})
+xlabel('Days from May 27, 2014')
+ylabel('ratio')
+title({'The ratio of $\frac{d}{dt}$(E/S)=0 in SierraLeone', '(Incubation period = 1/11.4)'}, 'Interpreter', 'latex');
 hold off
